@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<title>Serie numeriche su diagramma a dispersione</title>
+<title>Serie numeriche multiple su diagramma a dispersione</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
@@ -55,4 +55,246 @@
       <option value="">Nessuna</option>
       <option value="aritmetica">Aritmetica</option>
       <option value="geometrica">Geometrica</option>
-      <option value="fibonacci">F
+      <option value="fibonacci">Fibonacci</option>
+      <option value="quadratica">Quadratica</option>
+      <option value="cubo">Cubica</option>
+      <option value="factorial">Fattoriale</option>
+      <option value="prime">Primi</option>
+      <option value="lucas">Lucas</option>
+    </select>
+    <input type="number" class="serieN" value="10" min="1" max="50">
+  </div>
+  <div class="serie-control">
+    <label>Serie 4:</label>
+    <select class="serieType">
+      <option value="">Nessuna</option>
+      <option value="aritmetica">Aritmetica</option>
+      <option value="geometrica">Geometrica</option>
+      <option value="fibonacci">Fibonacci</option>
+      <option value="quadratica">Quadratica</option>
+      <option value="cubo">Cubica</option>
+      <option value="factorial">Fattoriale</option>
+      <option value="prime">Primi</option>
+      <option value="lucas">Lucas</option>
+    </select>
+    <input type="number" class="serieN" value="10" min="1" max="50">
+  </div>
+  <div class="serie-control">
+    <label>Serie 5:</label>
+    <select class="serieType">
+      <option value="">Nessuna</option>
+      <option value="aritmetica">Aritmetica</option>
+      <option value="geometrica">Geometrica</option>
+      <option value="fibonacci">Fibonacci</option>
+      <option value="quadratica">Quadratica</option>
+      <option value="cubo">Cubica</option>
+      <option value="factorial">Fattoriale</option>
+      <option value="prime">Primi</option>
+      <option value="lucas">Lucas</option>
+    </select>
+    <input type="number" class="serieN" value="10" min="1" max="50">
+  </div>
+  <div class="serie-control">
+    <label>Serie 6:</label>
+    <select class="serieType">
+      <option value="">Nessuna</option>
+      <option value="aritmetica">Aritmetica</option>
+      <option value="geometrica">Geometrica</option>
+      <option value="fibonacci">Fibonacci</option>
+      <option value="quadratica">Quadratica</option>
+      <option value="cubo">Cubica</option>
+      <option value="factorial">Fattoriale</option>
+      <option value="prime">Primi</option>
+      <option value="lucas">Lucas</option>
+    </select>
+    <input type="number" class="serieN" value="10" min="1" max="50">
+  </div>
+  <div class="serie-control">
+    <label>Serie 7:</label>
+    <select class="serieType">
+      <option value="">Nessuna</option>
+      <option value="aritmetica">Aritmetica</option>
+      <option value="geometrica">Geometrica</option>
+      <option value="fibonacci">Fibonacci</option>
+      <option value="quadratica">Quadratica</option>
+      <option value="cubo">Cubica</option>
+      <option value="factorial">Fattoriale</option>
+      <option value="prime">Primi</option>
+      <option value="lucas">Lucas</option>
+    </select>
+    <input type="number" class="serieN" value="10" min="1" max="50">
+  </div>
+  <div class="serie-control">
+    <label>Serie 8:</label>
+    <select class="serieType">
+      <option value="">Nessuna</option>
+      <option value="aritmetica">Aritmetica</option>
+      <option value="geometrica">Geometrica</option>
+      <option value="fibonacci">Fibonacci</option>
+      <option value="quadratica">Quadratica</option>
+      <option value="cubo">Cubica</option>
+      <option value="factorial">Fattoriale</option>
+      <option value="prime">Primi</option>
+      <option value="lucas">Lucas</option>
+    </select>
+    <input type="number" class="serieN" value="10" min="1" max="50">
+  </div>
+</div>
+
+<button id="genera">Genera e Disegna</button>
+
+<canvas id="scatterChart"></canvas>
+
+<div id="serieInfoContainer"></div>
+
+<script>
+const ctx = document.getElementById('scatterChart').getContext('2d');
+let chart;
+
+const colors = [
+  'rgba(75, 192, 192, 0.7)',
+  'rgba(255, 99, 132, 0.7)',
+  'rgba(255, 206, 86, 0.7)',
+  'rgba(54, 162, 235, 0.7)',
+  'rgba(153, 102, 255, 0.7)',
+  'rgba(255, 159, 64, 0.7)',
+  'rgba(199, 199, 199, 0.7)',
+  'rgba(83, 102, 255, 0.7)'
+];
+
+function generaSerie(type, n) {
+  let data = [];
+  let formula = '';
+  let values = [];
+  if(type === "aritmetica") {
+    let a1 = 1, d = 2;
+    formula = `a_n = a_1 + (n-1) \\cdot d`;
+    for(let i=0;i<n;i++){
+      let y = a1 + i*d;
+      data.push({x:i+1,y});
+      values.push(y);
+    }
+  } else if(type === "geometrica") {
+    let a1 = 1, r = 2;
+    formula = `a_n = a_1 \\cdot r^{n-1}`;
+    for(let i=0;i<n;i++){
+      let y = a1 * Math.pow(r,i);
+      data.push({x:i+1,y});
+      values.push(y);
+    }
+  } else if(type === "fibonacci") {
+    formula = `F_0=0, F_1=1, F_n=F_{n-1}+F_{n-2}`;
+    let a=0,b=1;
+    for(let i=0;i<n;i++){
+      data.push({x:i+1,y:a});
+      values.push(a);
+      let temp = a+b; a=b; b=temp;
+    }
+  } else if(type === "quadratica") {
+    formula = `a_n = n^2`;
+    for(let i=1;i<=n;i++){
+      data.push({x:i,y:i*i});
+      values.push(i*i);
+    }
+  } else if(type === "cubo") {
+    formula = `a_n = n^3`;
+    for(let i=1;i<=n;i++){
+      data.push({x:i,y:i*i*i});
+      values.push(i*i*i);
+    }
+  } else if(type === "factorial") {
+    formula = `a_n = n!`;
+    let f=1;
+    for(let i=1;i<=n;i++){
+      f = i===1?1:f*i;
+      data.push({x:i,y:f});
+      values.push(f);
+    }
+  } else if(type === "prime") {
+    formula = `a_n = p_n (n\\text{-esimo numero primo})`;
+    let primes=[]; let num=2;
+    while(primes.length<n){
+      let isPrime=true;
+      for(let p of primes){
+        if(num%p===0){isPrime=false; break;}
+      }
+      if(isPrime) primes.push(num);
+      num++;
+    }
+    for(let i=0;i<n;i++){
+      data.push({x:i+1,y:primes[i]});
+      values.push(primes[i]);
+    }
+  } else if(type === "lucas") {
+    formula = `L_0=2, L_1=1, L_n=L_{n-1}+L_{n-2}`;
+    let a=2,b=1;
+    for(let i=0;i<n;i++){
+      data.push({x:i+1,y:a});
+      values.push(a);
+      let temp = a+b; a=b; b=temp;
+    }
+  }
+  return {data, formula, values};
+}
+
+function disegnaGrafico(seriesData) {
+  if(chart) chart.destroy();
+  chart = new Chart(ctx,{
+    type:'scatter',
+    data:{
+      datasets: seriesData.map((s,i)=>({
+        label: s.type,
+        data: s.data,
+        backgroundColor: colors[i],
+      }))
+    },
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{
+          labels:{color:'#000'}
+        }
+      },
+      scales:{
+        x:{title:{display:true,text:'Indice'},ticks:{color:'#000'}},
+        y:{title:{display:true,text:'Valore'},ticks:{color:'#000'}}
+      }
+    }
+  });
+}
+
+function mostraInfo(seriesData){
+  const container = document.getElementById('serieInfoContainer');
+  container.innerHTML='';
+  seriesData.forEach((s,i)=>{
+    const div = document.createElement('div');
+    div.className='serie-info';
+    div.style.borderLeft=`5px solid ${colors[i]}`;
+    div.innerHTML = `<p><strong>Serie ${i+1} (${s.type})</strong></p>
+                     <p>Formula: <span id="formula${i}"></span></p>
+                     <p>Primi valori: ${s.values.join(', ')}</p>`;
+    container.appendChild(div);
+    katex.render(s.formula, document.getElementById(`formula${i}`), {throwOnError:false});
+  });
+}
+
+document.getElementById('genera').addEventListener('click',()=>{
+  const types = [...document.querySelectorAll('.serieType')].map(el=>el.value);
+  const ns = [...document.querySelectorAll('.serieN')].map(el=>Math.min(Math.max(parseInt(el.value),1),50));
+  const seriesData = [];
+  types.forEach((type,i)=>{
+    if(type){
+      const serie = generaSerie(type, ns[i]);
+      seriesData.push({type, ...serie});
+    }
+  });
+  disegnaGrafico(seriesData);
+  mostraInfo(seriesData);
+});
+
+// disegna inizialmente
+document.getElementById('genera').click();
+</script>
+
+</body>
+</html>
